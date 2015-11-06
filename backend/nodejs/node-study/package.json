@@ -1,0 +1,22 @@
+{
+  "name": "node-study",
+  "version": "1.0.0",
+  "description": "help me to test nodejs program",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+	"myindex"
+  ],
+  "author": "Vinson",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp-filter": "^3.0.1",
+    "lodash": "^3.10.1",
+    "npm": "^3.3.12",
+    "through2": "^2.0.0",
+    "through2-map": "^2.0.0",
+    "vinyl": "^1.1.0"
+  }
+}
