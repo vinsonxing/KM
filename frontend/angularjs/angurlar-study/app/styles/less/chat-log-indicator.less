@@ -1,0 +1,81 @@
+@pop-size: 6px;
+[class*=chat_content_] {
+  float: left;
+  background: #fff;
+  position: relative;
+  //max-width: 260px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 5px;
+
+  &:after {
+    position: absolute;
+    width: 0;
+    height: 0;
+    display: block;
+    content: " ";
+    border-color: transparent;
+    pointer-events: none;
+  }
+}
+
+.chat_content_top {
+  &:after {
+    top: -@pop-size + 1;
+    border-style: dashed dashed solid dashed;
+    border-width: 0px @pop-size @pop-size @pop-size;
+  }
+  &.self:after {
+    border-bottom-color: @self-background-color;
+  }
+  &.other:after {
+    border-bottom-color: @other-background-color;
+  }
+}
+
+
+.chat_content_right {
+  &:after {
+    top: @pop-size;
+    right: -@pop-size + 1;
+    border-style: dashed dashed dashed solid;
+    border-width: @pop-size 0 @pop-size @pop-size;
+  }
+  &.self:after {
+    border-left-color: @self-background-color;
+  }
+  &.other:after {
+    border-left-color: @other-background-color;
+  }
+}
+
+.chat_content_bottom {
+  &:after {
+    bottom: -@pop-size + 1;
+    border-style: solid dashed dashed dashed;
+    border-width: @pop-size @pop-size 0 @pop-size;
+  }
+  &.self:after {
+    border-top-color: @self-background-color;
+  }
+  &.other:after {
+    border-top-color: @other-background-color;
+  }
+}
+
+.chat_content_left {
+  &:after {
+    top: @pop-size;
+    left: -@pop-size + 1;
+    border-style: dashed solid dashed dashed;
+    border-width: @pop-size @pop-size @pop-size 0;
+  }
+
+  &.self:after {
+    border-right-color: @self-background-color;
+  }
+  &.other:after {
+    border-right-color: @other-background-color;
+  }
+}

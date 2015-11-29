@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" href="styles/css/main.css"/>
+    <!-- endbuild -->
+  </head>
+  <body >
+
+    <div class="chat-container">
+      <div ui-view></div>
+      <chat-loading></chat-loading>
+      <chat-alert></chat-alert>
+    </div>
+    <script type="text/javascript" charset="utf-8" async defer>
+      var debugMode = false;
+      (function() {
+        var hash = window.location.hash;
+        if (hash && hash.indexOf("?") > 0 && (hash.indexOf("debug=1") || hash.indexOf("debug=true"))) {
+          debugMode = true;
+        }
+      })();
+
+    </script>
+    <script src="lib/requirejs/require.js" data-main="scripts/main.js"></script>
+</body>
+</html>

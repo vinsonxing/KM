@@ -1,0 +1,48 @@
+@robot-icon-border:@chat-border-color;
+@robot-size: 60px;
+@chat-btn-hover-color: blue;
+@chat-btn-width: 50%;
+@frame-border-radius: 6px;
+@init-question-height: 200px;
+
+.robot-pre-icon {
+  height: @robot-size;
+  width: @robot-size;
+  line-height: @robot-size;
+  border: solid 1px @robot-icon-border;
+  text-align: center;
+  border-radius: 100%;
+  float: left;
+  background-color: white;
+}
+
+.chat-pre {
+
+  margin: 20px;
+  .saying {
+    clear: right;
+    margin-left: @robot-size + 10px;
+    >.saying-hi {
+      height: @robot-size / 2;
+      line-height: @robot-size / 2;
+      display: block;
+    }
+  }
+  .init-question {
+    textarea {
+      width: 100%;
+      height: @init-question-height;
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: @frame-border-radius;
+      resize: none;
+    }
+  }
+
+  .chat-btn {
+    margin: 20px 0;
+    padding-left: 50px;
+    padding-right: 50px;
+    float: right;
+  }
+}

@@ -1,0 +1,63 @@
+
+@header-background: #358AD9;
+@header-color: #FFFFFF;
+@chat-min-width: 430px;
+.navbar-default{
+  background-color: @header-background;
+  color: @header-color;
+  width: 100%;
+  min-width: @chat-min-width;
+  margin-bottom: 0;
+}
+.navbar-brand {
+  height: 100%;
+  > img {
+    width: 60%;
+  }
+}
+.container-fluid {
+  padding-left: 0;
+}
+.ticket-info {
+  left: 10px;
+  position: relative;
+  a {
+    line-height: 50px;
+    color: @header-color;
+    margin-left: 10px;
+  }
+  label {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: @chat-min-width - 130;
+    vertical-align: middle;
+  }
+}
+.chat-header-actions {
+  /* float: right; */
+  font-size: 30px;
+  position: absolute;
+  right: @header-padding;
+  top: 10px;
+  > div {
+    margin-left: 10px;
+  }
+  color: @header-color;
+  .fa {
+    .hover-icon-btn(#000);
+  }
+}
+
+.chat-minus {
+  vertical-align: -webkit-baseline-middle;
+  vertical-align: middle;
+}
+
+.clearfix:after {
+  content:'';
+  clear: both;
+  display:block;
+  height: 0;
+  visibility: hidden;
+}

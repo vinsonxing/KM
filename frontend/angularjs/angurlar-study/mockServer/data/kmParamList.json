@@ -1,0 +1,42 @@
+{
+  "Messages": [],
+  "ReturnCode": 0,
+  "kmoo": {
+    "id": "KM0160",
+    "kmTitle": "How to reset VM password?",
+    "kmContent": "Please finish the questions and submit the form, if you are the owner of the VM, the password will be automatically reset. If you are not the owner, your request will be proceeded only after it is approved by the owner of the virtual machine.",
+    "ooid": "6a2a90e2-9065-4a65-a1e5-66dccebbbb8c",
+    "ooparameter": [
+      {
+        "para.description": "Type VM IP address or FQDN:",
+        "para.name": "vm.name",
+        "para.required": true,
+        "para.sensitive": false,
+        "para.type": "list",
+        "para.select.list": [
+          "16.186.77.47",
+          "16.187.186.147"
+        ]
+      },
+      {
+        "para.description": "Type the user name of which you want to reset the password: ",
+        "para.name": "vw.username",
+        "para.required": true,
+        "para.sensitive": false
+      },
+      {
+        "para.description": "Type new password: ",
+        "para.name": "new.password",
+        "para.required": true,
+        "para.sensitive": true
+      },
+      {
+        "para.description": "Type new password again: ",
+        "para.name": "confirm.password",
+        "para.required": true,
+        "para.sensitive": true
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,13 @@
+<div class="chat-log">
+  <div class="chat-body" >
+    <div ng-repeat="msg in vm.messages"  class="chat-msg clearfix">
+      <a href="" ng-show="!msg.isSelf" class="pull-left w-40 m-r-sm"><img src="images/a3.jpg" class="w-full img-circle" alt="..."></a>
+      <a href="" ng-show="msg.isSelf" class="pull-right w-40 m-l-sm"><img src="images/a9.jpg" class="w-full img-circle" alt="..."></a>
+      <div class="chat-msg-body" ng-class="{ self:msg.isSelf, other: !msg.isSelf, system:msg.isSystem, chat_content_left:!msg.isSelf, chat_content_right:msg.isSelf}">
+        <span ng-if="msg.type=='text'" class="chat-msg-text">{{msg.msg}}</span>
+        <span ng-if="msg.type=='html'" class="chat-msg-text" ng-bind-html="msg.msg"></span>
+        <a ng-if="$last" class="chat-log-bottom"/>
+      </div>
+    </div>
+  </div>
+</div>

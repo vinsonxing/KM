@@ -1,0 +1,40 @@
+@self-background-color: #E8E8E8;
+@other-background-color: #02B389;
+@system-background-color: #CCCCCC;
+@chat-log-text-color: #FFFFFF;
+.chat-log {
+  .chat-body {
+    overflow-y: auto;
+    width: 100%;
+    min-height: 400px;
+    max-height: 500px;
+    .chat-msg {
+      position: relative;
+      margin: 20px 25px 20px 10px;
+      .chat-msg-body {
+        padding: 10px;
+        max-width: 80%;
+        &.self {
+          background-color: @self-background-color;
+          float:right;
+        }
+        &.other {
+          float:left;
+          background-color: @other-background-color;
+          color: @chat-log-text-color;
+        }
+        &.system {
+          background-color: @system-background-color;
+        }
+        a {
+          color: #fff;
+          cursor: pointer;
+        }
+      }
+
+
+    }
+
+  }
+
+}

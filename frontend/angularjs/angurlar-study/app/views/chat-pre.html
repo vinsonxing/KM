@@ -1,0 +1,16 @@
+<div class="chat-pre">
+  <div class="robot-pre">
+    <a href="" class="pull-left w-60 m-r-sm"><img src="images/a3.jpg" class="w-full img-circle" alt="..."></a>
+    <div class="saying">
+      <span class="saying-hi">Hello, {{vm.name}} , {{111 | currency}}</span>
+      <span class="saying-greeting">{{vm.greeting}}</span>
+    </div>
+    <div class="init-question">
+      <textarea placeholder="Please tell us your problem" name="init-ques" ng-model="vm.initQues"></textarea>
+    </div>
+    <button ui-sref="chat.main.log" ng-click="vm.initMessages()" class="chat-btn btn btn-primary btn-lg" name="chat-btn">{{'launchBtn.btnName' | i18next}}</button>
+    <!-- <a href="#" ui-sref="chat.main.log" ng-click="vm.initMessages()" class=" chat-btn button">Default Button</a> -->
+
+    <dir-test iso-attr="{{foo}}" iso-bind="foo" iso-method="parentMethod(arg)"/>
+  </div>
+</div>

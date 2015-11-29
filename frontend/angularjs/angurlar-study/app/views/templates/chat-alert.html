@@ -1,0 +1,6 @@
+<div class="chat-alert">
+  <div class="alert alert-{{vm.status}}">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>{{vm.status | wordMapper | firstUpper}} !</strong>{{vm.message}}
+  </div>
+</div>

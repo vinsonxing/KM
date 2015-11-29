@@ -1,0 +1,19 @@
+<div class="question-form">
+  <div> <span>{{quesVM.kmContent}}</span></div>
+  <div ng-repeat="ques in quesVM.questions">
+    <div class="form-group">
+      <!-- Single button -->
+      <div class="col-lg-6 col-md-12">
+        <label for="{{ques['para.name']}}" class="ques-row question" ng-class="{required: ques['para.required']}">{{ques['para.description']}}</label>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <input id="{{ques['para.name']}}" class="ques-row answer form-control" type="{{ques['para.sensitive'] || ques['para.sensitive'] == 'true' ? 'password': 'text'}}" name="{{ques['para.name']}}" ng-model="quesValue"/>
+      </div>
+    </div>
+  </div>
+  <div class="chat-btn-group">
+    <button type="button" ng-click="quesVM.submitAnswers()" class="btn btn-primary btn-lg">Submit</button>
+    <button type="button" ui-sref="chat.main.log" ng-click="quesVM.cancel()" class="btn btn-default btn-lg">Cancel</button>
+  </div>
+
+</div>

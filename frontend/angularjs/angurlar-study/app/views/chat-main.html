@@ -1,0 +1,14 @@
+<div class="chat-main">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <chat-participant></chat-participant>
+      </div>
+      <div class="panel-body">
+        <div ui-view="chat-log"></div>
+        <div ui-view="chat-question"></div>
+      </div>
+    </div>
+
+  <div chat-submitter ng-show="vm.isLive"></div>
+</div>

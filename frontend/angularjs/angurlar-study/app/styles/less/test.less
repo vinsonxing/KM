@@ -1,0 +1,28 @@
+#vinson{
+    width: 50px;
+    height: 50px;
+    background: red;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    border-radius:100%;
+  
+    -webkit-animation-delay: 0, 0;
+    -webkit-animation-duration: .5s, 5s;
+    -webkit-animation-name: lblarge, lbradius;
+   
+    
+    /* -webkit-animation: launchbtnenlarge 1s infinite;
+    animation: launchbtnenlarge 1s infinite; */
+}
+
+@-webkit-keyframes lblarge {
+    0% {-webkit-transform: scale(1);}
+    
+    100% {-webkit-transform: scale(10);}
+}
+
+@-webkit-keyframes lbradius {
+	0 {border-radius:100%;background: red;}
+	100% {border-radius:0;background: blue;}
+}

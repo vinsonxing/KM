@@ -1,0 +1,17 @@
+{
+  "Messages": [],
+  "ReturnCode": 0,
+  "kmoo": {
+    "km": [
+      {
+        "kmId": "KM0001",
+        "kmTitle": "How to reset VM password ?"
+      },
+      {
+        "kmId": "KM00100",
+        "kmTitle": "How to change VM password ?"
+      }
+    ],
+    "query": "reset password"
+  }
+}

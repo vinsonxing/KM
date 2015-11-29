@@ -1,0 +1,7 @@
+<div class="km-list">
+  <label>Find two articles might help. Please click the following links for details: </label>
+  <div ng-repeat="km in kms">
+    <a ng-if="clickable" ng-click="vm.viewArticle(km.kmId)"><i class="fa fa-file-o"/> {{km.kmTitle}}</a>
+    <span ng-if="!clickable">{{km.kmTitle}}</span>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+{
+  "name": "chat-integrator",
+  "description": "Support to embed the chat feature into other project via iframe way.",
+  "main": [
+    "lib/index.js"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7"
+  },
+  "keywords": [
+    "chat-integrator"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
