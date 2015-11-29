@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  define(['app', 'angular', 'directives/chat', 'controllers/chat', 'controllers/connectOF', 'controllers/launchchat'], function (smc, angular) {
+  define(['app', 'angular', 'study', 'directives/chat', 'controllers/chat', 'controllers/connectOF', 'controllers/launchchat'], function (smc, angular) {
     smc.config(function ($stateProvider, $urlRouterProvider) {
       // if there is no specific URL, go the the main window
       $urlRouterProvider.when('/', '/chat/chat-pre');
@@ -108,6 +108,12 @@
             'chat-log': {
               templateUrl: 'views/chat-rate.html'
             }}
+        })
+
+        // the followings are for study
+        .state('directive-test', {
+          url: '/directive-test',
+          templateUrl: 'views/study/directive-test.html'
         })
 
     });
