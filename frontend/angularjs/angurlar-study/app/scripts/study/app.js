@@ -1,8 +1,6 @@
 (function() {
 'use strict';
-/**
- * set all dependencies for study here
- */
+
 define(["angular",
   'angular-route',
   'angular-ui-router',
@@ -12,10 +10,19 @@ define(["angular",
   'angular-animate',
   'angular-touch',
   'ui.bootstrap',
-  './study/directive-test/directive-test'
+  'ng-i18next'/*,
+  'angular-bootstrap-simple-chat'*/
 ], function(angular) {
-
-  
+  /**
+ * @ngdoc overview
+ * @name chatClientApp
+ * @description
+ * # chatClientApp
+ *
+ * Main module of the application.
+ */
+var study = angular.module('study', []);
+  return study;
 });
 
 })(this);

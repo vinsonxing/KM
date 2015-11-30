@@ -30,7 +30,7 @@ var smcModule = angular.module('smc', [
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'jm.i18next', 'DireRequireTest'/*,
+    'jm.i18next', 'study'/*,
   'irontec.simpleChat'*/
   ]);
 

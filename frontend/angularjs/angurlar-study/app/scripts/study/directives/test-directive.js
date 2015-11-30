@@ -1,8 +1,7 @@
 (function() {
   'use strict';
-define(['angular','../../study'], function(angular) {
- angular.module('DireRequireTest', [])
-  .directive('dirParent', function() {
+define(['study/app'], function(study) {
+ study.directive('dirParent', function() {
     return {
       restrict: 'E',
       transclude: true,
@@ -30,7 +29,7 @@ define(['angular','../../study'], function(angular) {
       scope: {
         title: '@'
       },
-      controller: function($scope) {
+      controller: function($scope, $injector, $controller) {
         $scope.scopePrint = function () {
           console.error('this is from local - scope Print');
         };
@@ -38,6 +37,24 @@ define(['angular','../../study'], function(angular) {
         this.printLog = function() {
           console.error('this is from local - print Log');
         }
+
+        // $injector test start
+        var testService = $injector.get('testService');
+        testService.method();
+
+        $injector.invoke(['testService',function(ts) {
+          ts.method();
+        }]);
+
+        // console.error($injector.annotate('testService'));
+        console.error($injector.has('testService'));
+
+        // $injector test end 
+        // 
+        // $controller test start 
+        // 
+        console.log($injector.get('$rootScope').decoratedz_method_on_scope());
+        
       },
       link: function(scope, element, attrs, ctrl) {
         ctrl.printLog(); // can run parent's function, even which invoke its scope funcation/variables

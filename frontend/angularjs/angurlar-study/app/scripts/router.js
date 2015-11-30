@@ -1,6 +1,17 @@
 (function () {
   'use strict';
-  define(['app', 'angular', 'study', 'directives/chat', 'controllers/chat', 'controllers/connectOF', 'controllers/launchchat'], function (smc, angular) {
+  define(['app', 'angular', 'study/app', 'study/loader', 'directives/chat', 'controllers/chat', 'controllers/connectOF', 'controllers/launchchat'], function (smc, angular) {
+    
+    smc.config(function($provide) {
+      return $provide.decorator('$rootScope', function($delegate) {
+        $delegate.decoratedz_method_on_scope = function() {
+          console.error('this is from decorated scope...');
+        };
+
+        return $delegate;
+      });
+    });
+
     smc.config(function ($stateProvider, $urlRouterProvider) {
       // if there is no specific URL, go the the main window
       $urlRouterProvider.when('/', '/chat/chat-pre');
@@ -117,6 +128,8 @@
         })
 
     });
+
+
   });
 })(this);
 
