@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="<%= language %>" dir="<%= direction %>">
+
+<head>
+  <base href="<%= contextPath %>">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico">
+  <%- styles %>
+  <script type="text/javascript">
+    document.jmpCookiePrefix = '<%= cookieName %>';
+  </script>
+</head>
+
+<body translate-cloak>
+  <iframe id="idmCheckSession" src="<%= idm.iFrameUrl %>" class="hide"></iframe>
+  <div class="ui-view-root-container full-height">
+    <div ui-view class="full-height">
+    </div>
+  </div>
+
+  <%- scripts %>
+</body>
+
+</html>
