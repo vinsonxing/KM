@@ -16,5 +16,7 @@ public class IntStreamTest {
         tt.limit(5).forEach(t -> {
             System.out.println(t[0] + "," + t[1] + "," + t[2]);
         });
+
+
     }
 }
