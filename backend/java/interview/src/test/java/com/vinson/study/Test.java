@@ -1,0 +1,15 @@
+package com.vinson.study;
+
+import java.util.Date;
+
+public class Test {
+
+    public static void main(String[] args) throws Exception {
+
+        System.out.println("start=" + new Date());
+
+        Thread.sleep(60000);
+
+        System.out.println("over" + new Date());
+    }
+}
