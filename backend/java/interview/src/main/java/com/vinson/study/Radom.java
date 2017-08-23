@@ -18,24 +18,26 @@ public class Radom {
 
   public static void main(String[] args){
     int b = 9;
-    test tt = new test();
+    Radom r = new Radom();
+    test tt = r.new test();
     tt.setT(99);
     pass(tt);
     System.out.println("tt is " + tt.getT());
   }
-}
-class test {
-  int t;
 
-  int getT() {
-    return t;
-  }
+  private class test {
+      int t;
 
-  void setT(int t) {
-    this.t = t;
-  }
+      int getT() {
+          return t;
+      }
 
-  void addT(){
-    this.t++;
+      void setT(int t) {
+          this.t = t;
+      }
+
+      void addT(){
+          this.t++;
+      }
   }
 }
