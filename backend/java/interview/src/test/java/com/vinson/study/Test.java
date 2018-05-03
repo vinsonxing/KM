@@ -11,6 +11,10 @@ public class Test {
 //        Thread.sleep(60000);
 //
 //        System.out.println("over" + new Date());
-        System.out.println(0|1);
+//        System.out.println(0|1);
+        int a = 1;
+        int b = 10;
+
     }
+
 }
