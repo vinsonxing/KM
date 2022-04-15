@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class Person {
     String name;
-
+    
     public void eat() {
         System.out.println("eta method run:");
     }
@@ -39,19 +39,31 @@ public class Person {
 
         System.out.println("------------------------------------------------------------------");
 //        this or super 方法引用, 与实例方法引用的相同，都有一个实例对象p， 不同是需要p作为引用方法的入参 ！！！！
-        Person p = new Person("");
-        p.printName();
-
+       printName();
+       System.out.println("------------------------------------------------------------------");
+       fromFactory();
     }
 
-    public void printName() {
+    private static void printName() {
         String[] names = {"p1", "p2", "p3", "p4", "p5"};
-        Arrays.stream(names).map(Person::new).forEach(this::consumePerson);
+        Arrays.stream(names).map(Person::new).forEach(Person::consumePerson);
 //        Arrays.stream(names).map(Person::new).forEach(p -> this.consumePerson(p));
     }
 
-    public void consumePerson(Person p) {
+    public static void consumePerson(Person p) {
         System.out.println(p);
+    }
+    
+    private static void fromFactory() {
+    	// Factory
+        PersonFactory<Person> pf = Person::new;
+        Person p = pf.create("Vinson");
+        System.out.println(p);
+    }
+    
+    // Person 工厂
+    interface PersonFactory<P extends Person> {
+        P create(String name);
     }
 
 }

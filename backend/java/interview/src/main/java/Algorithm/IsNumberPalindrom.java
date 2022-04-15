@@ -7,7 +7,7 @@ package Algorithm;
  * Time: 11:47 AM
  * To change this template use File | Settings | File Templates.
  */
-public class isNumberPalindrom {
+public class IsNumberPalindrom {
   boolean isPalindrome(int x) {
     if(x<0) return false;
     int count = 1;

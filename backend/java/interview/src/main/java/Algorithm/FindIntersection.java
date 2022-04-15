@@ -7,7 +7,7 @@ import java.util.List;
  * Time: 12:51 PM
  * To change this template use File | Settings | File Templates.
  */
-public class findIntersection {
+public class FindIntersection {
 //  List<int> findIntersection(vector<int> A, vector<int> B) {
 //    vector<int> intersection;
 //    int n1 = A.size();

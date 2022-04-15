@@ -7,7 +7,7 @@ package Algorithm;
  * Time: 6:16 PM
  * To change this template use File | Settings | File Templates.
  */
-public class longestPalindrome {
+public class LongestPalindrome {
   public static String longestPalindrome2(String s) {
     if (s == null)
       return null;

@@ -7,7 +7,7 @@ package Algorithm;
  * Time: 12:29 PM
  * To change this template use File | Settings | File Templates.
  */
-public class kthLargest {
+public class KthLargest {
   public static void main(String[] args){
     int[] list = {1, 4, 2, 6, 5};
     System.out.println("it is " + kthLargest(list, 3));
