@@ -1,0 +1,7 @@
+@startuml
+!pragma layout smetana
+InvocationHandler <|.. MyHandler
+Logger <|.. Log4jLogger
+MyHandler <- Proxy
+Logger <- MyHandler
+@enduml

@@ -1,0 +1,6 @@
+@startuml
+!pragma layout smetana
+SmsService <|.. SmsServiceImpl
+SmsService <|.. SmsProxy
+SmsServiceImpl <- SmsProxy
+@enduml
