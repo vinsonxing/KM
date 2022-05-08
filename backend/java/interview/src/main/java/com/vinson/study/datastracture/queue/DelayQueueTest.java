@@ -1,4 +1,4 @@
-package com.vinson.study.queue;
+package com.vinson.study.datastracture.queue;
 
 import java.util.Random;
 import java.util.concurrent.DelayQueue;

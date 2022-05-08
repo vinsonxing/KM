@@ -16,6 +16,11 @@ public class BinaryTree {
     public TreeNode(int value){
       this.value=value;
     }
+    
+    @Override
+    public String toString() {
+    	return String.valueOf(value);
+    }
   }
 
   TreeNode root;
@@ -42,7 +47,21 @@ public class BinaryTree {
     }
     return null;
   }
-
+  
+  public static TreeNode makeBinaryTreeByArray1(int[] array,int index){
+	 if (index < array.length) {
+		 int value = array[index];
+		 if (value != 0) {
+			 TreeNode node = new TreeNode(value);
+			 array[index] = 0;
+			 node.left = makeBinaryTreeByArray1(array, index * 2);
+			 node.right = makeBinaryTreeByArray1(array, index * 2 + 1);
+			 return node;
+		 }
+	 }
+	 return null;
+  }
+  
   /**
    * 深度优先遍历，相当于先根遍历
    * 采用非递归实现
@@ -102,8 +121,18 @@ public class BinaryTree {
    *            /    /\   /
    *           22   4 28 32
    */
+  /**
+   *			   	  13
+   *                 /  \
+   *               65    5
+   * 			  /  \  / \ 
+   * 			 97  25 37 22
+   * 			/ \  /
+   * 		   4  28 32
+   */			
   public static void main(String[] args) {
-    int[] arr={0,13,65,5,97,25,0,37,22,0,4,28,0,0,32,0};
+//    int[] arr={0,13,65,5,97,25,0,37,22,0,4,28,0,0,32,0};
+    int[] arr={0,13,65,5,97,25,37,22,4,28,32};
     BinaryTree tree=new BinaryTree(arr);
     tree.depthOrderTraversal();
     tree.levelOrderTraversal();

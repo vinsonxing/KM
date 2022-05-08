@@ -1,4 +1,4 @@
-package com.vinson.study.map;
+package com.vinson.study.datastracture.map;
 
 /**
  * Created with IntelliJ IDEA.

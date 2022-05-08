@@ -1,4 +1,4 @@
-package Algorithm;
+package com.vinson.base.collections;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -66,9 +66,9 @@ public class PriorityQueueTest {
     PriorityQueueTest t2 = new PriorityQueueTest("t2",2);
     PriorityQueueTest t4 = new PriorityQueueTest("t4",0);
     priorityQueue.add(t1);
-    priorityQueue.add(t3);
     priorityQueue.add(t2);
     priorityQueue.add(t4);
+    priorityQueue.add(t3);
     System.out.println(priorityQueue.poll().toString());
     System.out.println(priorityQueue.poll().toString());
     System.out.println(priorityQueue.poll().toString());
