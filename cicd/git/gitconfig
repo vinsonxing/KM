@@ -1,0 +1,42 @@
+[alias]
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    rt = rev-parse --show-toplevel
+    co = checkout
+    ci = commit
+    st = status -sb
+    br = branch
+    rb = rebase
+
+[color]
+    ui = true
+    status = auto
+    branch = auto
+    diff = auto
+    interactive = auto
+
+[filter "lfs"]
+                clean = git-lfs clean %f
+                smudge = git-lfs smudge %f
+                required = true
+
+[push]
+                default = current
+[core]
+                excludesfile = /Users/vixing/.gitignore_global
+                ignorecase = false
+[difftool "sourcetree"]
+                cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+                path =
+[mergetool "sourcetree"]
+                cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+                trustExitCode = true
+[user]
+	name = <Display Name>
+	email = <email>
+[filesystem "Oracle Corporation|1.8.0_201|/dev/disk1s1"]
+	timestampResolution = 1001 milliseconds
+	minRacyThreshold = 0 nanoseconds
+[http]
+	postBuffer = 524288000
+[pull]
+	rebase = false

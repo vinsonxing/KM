@@ -8,7 +8,7 @@ public class DelayQueueStudent implements Runnable, Delayed {
     private String name; // 姓名
     private long costTime;// 做试题的时间
     private long finishedTime;// 完成时间
-    private DelayQueue dq;
+    private DelayQueue<?> dq;
 
     public DelayQueueStudent(String name, long costTime) {
         this.name = name;
@@ -16,7 +16,7 @@ public class DelayQueueStudent implements Runnable, Delayed {
         finishedTime = costTime + System.currentTimeMillis();
     }
 
-    public void setDQ(DelayQueue dq) {
+    public void setDQ(DelayQueue<?> dq) {
         this.dq = dq;
     }
 
@@ -42,4 +42,8 @@ public class DelayQueueStudent implements Runnable, Delayed {
     public String toString() {
         return "学生：" + this.name;
     }
+    
+    public static void main(String[] args) {
+    	System.out.println(TimeUnit.SECONDS.toMillis(60));
+	}
 }

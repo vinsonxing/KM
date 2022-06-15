@@ -26,6 +26,8 @@ public class DelayQueueTest {
             // 每次从DeplayQueue中取出一个元素，剩下的元素会再次排序，因为DeplayQueue内部依赖PriorityQueue来存储元素。-- vinson
             exec.execute(students.take());
         }
+        System.out.println("before");
         exec.shutdown();
+        System.out.println("after");
     }
 }
