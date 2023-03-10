@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="30">
+	<DynamicThresholdFilter key="X-LOG-DEBUG" defaultThreshold="INFO"
+      onMatch="ACCEPT" onMismatch="NEUTRAL">
+        <KeyValuePair key="true" value="DEBUG"/>
+    </DynamicThresholdFilter>
+    <Appenders>
+        <Routing name="Error">
+            <Routes pattern="true">
+                <Route key="true">
+                    <Console name="STDOUT" target="SYSTEM_OUT">
+                        <Filters>
+                            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+                            <BurstFilter level="ERROR" rate="10" maxBurst="30"/>
+                        </Filters>
+                        <JSONLayout complete="false" compact="true"  eventEol="true" properties="true" stacktraceAsString="true">
+                        </JSONLayout>
+                    </Console>
+                </Route>
+            </Routes>
+        </Routing>
+        <Routing name="Server">
+            <Routes pattern="true">
+                <Route key="true">
+                    <Console name="STDOUT" target="SYSTEM_OUT">
+                        <filters>
+                            <ThresholdFilter level="error"  onMatch="DENY"   onMismatch="NEUTRAL"/>
+                        </filters>
+                        <JSONLayout complete="false" compact="true"  eventEol="true" properties="true" stacktraceAsString="true">
+                        </JSONLayout>
+                    </Console>
+                </Route>
+            </Routes>
+        </Routing>
+    </Appenders>
+    
+    <Loggers>
+        <Logger name="org.apache"  level="error">
+            <Appender-ref ref="Server"/>
+        </Logger>
+        <Logger name="com.vinson" level="info">
+            <Appender-ref ref="Server"/>
+        </Logger>
+        <Logger name="all" level="info">
+            <Appender-ref ref="Server"/>
+        </Logger>
+        <Root level="error">
+            <Appender-ref ref="Error"/>
+        </Root>
+    </Loggers>
+    
+    <!-- <Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="vixing-%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n" />
+		</Console>
+	</Appenders>
+	 <Loggers>
+        Server Loggers
+        <Logger name="org.apache"  level="error">
+            <Appender-ref ref="Console"/>
+        </Logger>
+        <Logger name="com.cisco" level="info">
+            <Appender-ref ref="Console"/>
+        </Logger>
+        <Logger name="all" level="info">
+            <Appender-ref ref="Console"/>
+        </Logger>
+        <Root level="error">
+            <Appender-ref ref="Console"/>
+        </Root>
+    </Loggers> -->
+</Configuration>
