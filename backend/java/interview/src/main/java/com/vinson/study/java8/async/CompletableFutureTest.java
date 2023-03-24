@@ -26,8 +26,11 @@ public class CompletableFutureTest {
 //		combinedFuture();
 //		parallelFuture();
 //		parallelFuture1();
-	    completedFutureWhen();
+//	    completedFutureWhen();
 //	    computationFutureWhen1();
+	    workAsPromise(2000l); // no error
+	    System.out.println("====================");
+	    workAsPromise(5000l); // has error
 	}
 	
 	private static void simpleFuture() throws InterruptedException, ExecutionException {
@@ -179,5 +182,29 @@ public class CompletableFutureTest {
 			  .map(CompletableFuture::join)
 			  .collect(Collectors.joining(" "));
 		System.out.println(ret);
+	}
+	
+	private static void workAsPromise(long time) throws Exception {
+	    CompletableFuture<String> f1 = new CompletableFuture<>();
+	    f1.whenComplete((s, t) -> {
+	        if (t != null) {
+	            System.out.println("got some error::: " + t.getMessage());
+	            return;
+	        }
+	        System.out.println("Hello " + s);
+	    });
+	    System.out.println("waiting....");
+	    // run task
+	    someTaskNeedTime(f1, time);
+	}
+	
+	private static void someTaskNeedTime(CompletableFuture<String> future, long threshold) throws Exception {
+	    long waitingTime = 3000l;
+	    Thread.sleep(3000l);
+	    if (threshold > waitingTime) {
+	        future.completeExceptionally(new Exception("too loooong !"));
+	        return;
+	    }
+        future.complete("maomao");
 	}
 }
