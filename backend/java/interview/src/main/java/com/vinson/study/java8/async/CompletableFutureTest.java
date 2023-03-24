@@ -31,6 +31,11 @@ public class CompletableFutureTest {
 	    workAsPromise(2000l); // no error
 	    System.out.println("====================");
 	    workAsPromise(5000l); // has error
+	    System.out.println("");
+	    String ret = workAsPromiseHandle(2000l).get();
+	    System.out.println("Hello " + ret);
+	    
+	    
 	}
 	
 	private static void simpleFuture() throws InterruptedException, ExecutionException {
@@ -183,6 +188,27 @@ public class CompletableFutureTest {
 			  .collect(Collectors.joining(" "));
 		System.out.println(ret);
 	}
+	
+	private static CompletableFuture<String> workAsPromiseHandle(long time) throws Exception {
+        CompletableFuture<String> f1 = new CompletableFuture<>();
+        CompletableFuture<String> ret = f1.handle((s, t) -> {
+            if (t != null) {
+                System.out.println("got some error::: " + t.getMessage());
+                return "error";
+            }
+            return "bubu";
+        });
+        System.out.println("waiting....");
+        CompletableFuture.runAsync(() -> {
+            // run task
+            try {
+                someTaskNeedTime(f1, time);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return ret;
+    }
 	
 	private static void workAsPromise(long time) throws Exception {
 	    CompletableFuture<String> f1 = new CompletableFuture<>();
