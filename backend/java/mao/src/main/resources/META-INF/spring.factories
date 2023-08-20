@@ -1,0 +1,7 @@
+#com.study.spring.boot.AutoConfig.Application$MyImportSelector=\
+#com.study.spring.boot.AutoConfig.Application.AutoConfiguration1,\
+#com.study.spring.boot.AutoConfig.Application.AutoConfiguration2
+#
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#com.study.spring.boot.AutoConfig.Application.AutoConfiguration1,\
+#com.study.spring.boot.AutoConfig.Application.AutoConfiguration2

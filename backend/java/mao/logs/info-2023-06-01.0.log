@@ -1,0 +1,26 @@
+2023-06-01 17:01:58.469 INFO  PID_IS_UNDEFINED --- [main] c.s.s.event.Application$EmailApplicationListener - 发送邮件
+2023-06-01 17:01:58.545 INFO  PID_IS_UNDEFINED --- [main] c.s.s.event.Application$SmsApplicationListener - 发送短信
+2023-06-01 17:02:22.059 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application1$MyService - 主线业务
+2023-06-01 17:02:22.078 INFO  PID_IS_UNDEFINED --- [executor-2] com.study.spring.event.Application1$SmsService - 发送短信
+2023-06-01 17:02:22.077 INFO  PID_IS_UNDEFINED --- [executor-1] com.study.spring.event.Application1$EmailService - 发送邮件
+2023-06-01 17:21:16.246 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$MyService - 主线业务
+2023-06-01 17:21:16.269 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$SmsService - 发送短信
+2023-06-01 17:25:26.515 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$MyService - 主线业务
+2023-06-01 17:25:26.539 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$SmsService - 发送短信
+2023-06-01 17:30:59.251 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$MyService - 主线业务
+2023-06-01 17:33:53.573 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$MyService - 主线业务
+2023-06-01 17:36:01.844 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$MyService - 主线业务
+2023-06-01 17:37:08.480 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$MyService - 主线业务
+2023-06-01 17:37:08.545 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$EmailService - 发送邮件
+2023-06-01 17:37:08.546 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$SmsService - 发送短信
+2023-06-01 17:50:28.809 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$MyService - 主线业务
+2023-06-01 17:50:28.839 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$EmailService - 发送邮件
+2023-06-01 17:50:28.839 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application2$SmsService - 发送短信
+2023-06-01 18:01:03.019 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application3$MyService - 主线业务
+2023-06-01 18:18:41.525 WARN  PID_IS_UNDEFINED --- [main] o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanNotOfRequiredTypeException: Bean named 'com.study.spring.event.Application3$EmailApplicationListener' is expected to be of type 'org.springframework.context.event.GenericApplicationListener' but was actually of type 'com.study.spring.event.Application3$EmailApplicationListener'
+2023-06-01 18:24:03.943 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application3$MyService - 主线业务
+2023-06-01 18:24:03.952 INFO  PID_IS_UNDEFINED --- [main] c.s.s.event.Application3$EmailApplicationListener - 发送邮件
+2023-06-01 18:24:03.952 INFO  PID_IS_UNDEFINED --- [main] c.s.s.event.Application3$SmsApplicationListener - 发送短信
+2023-06-01 18:29:22.841 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application3$MyService - 主线业务
+2023-06-01 18:29:22.864 INFO  PID_IS_UNDEFINED --- [threadPoolTaskExecutor-2] c.s.s.event.Application3$SmsApplicationListener - 发送短信
+2023-06-01 18:29:22.866 INFO  PID_IS_UNDEFINED --- [threadPoolTaskExecutor-1] c.s.s.event.Application3$EmailApplicationListener - 发送邮件

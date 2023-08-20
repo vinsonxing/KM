@@ -1,0 +1,16 @@
+2023-05-31 11:49:40.143 INFO  PID_IS_UNDEFINED --- [http-nio2-8080-exec-4] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'bbb'
+2023-05-31 11:49:40.729 INFO  PID_IS_UNDEFINED --- [http-nio2-8080-exec-4] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 541 ms
+2023-05-31 11:53:35.691 INFO  PID_IS_UNDEFINED --- [http-nio2-8080-exec-4] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-05-31 11:53:36.078 INFO  PID_IS_UNDEFINED --- [http-nio2-8080-exec-4] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 376 ms
+2023-05-31 15:49:22.514 WARN  PID_IS_UNDEFINED --- [main] o.s.context.support.GenericApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to process import candidates for configuration class [com.study.spring.boot.AutoConfig.Application$Config]; nested exception is java.lang.IllegalArgumentException: Unable to instantiate factory class [com.study.spring.boot.AutoConfig.Application.AutoConfiguration1] for factory type [com.study.spring.boot.AutoConfig.Application$MyImportSelector]
+2023-06-01 16:42:30.024 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application$MyService - 主线业务
+2023-06-01 16:42:30.084 INFO  PID_IS_UNDEFINED --- [main] c.s.s.event.Application$EmailApplicationListener - 发送邮件
+2023-06-01 16:42:30.084 INFO  PID_IS_UNDEFINED --- [main] c.s.s.event.Application$SmsApplicationListener - 发送短信
+2023-06-01 16:50:03.177 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application1$MyService - 主线业务
+2023-06-01 16:50:03.184 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application1$EmailService - 发送邮件
+2023-06-01 16:50:03.185 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application1$SmsService - 发送短信
+2023-06-01 16:54:47.232 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application1$MyService - 主线业务
+2023-06-01 16:54:47.240 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application1$EmailService - 发送邮件
+2023-06-01 16:54:47.240 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application1$SmsService - 发送短信
+2023-06-01 16:55:41.512 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application1$MyService - 主线业务
+2023-06-01 16:56:30.259 INFO  PID_IS_UNDEFINED --- [main] com.study.spring.event.Application1$MyService - 主线业务
