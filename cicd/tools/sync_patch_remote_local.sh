@@ -6,13 +6,14 @@ set  -x
 print_help() {
   echo '''
   Usage: lsync [OPTIONS]
-  Description: Command sync the code changes between dev machine and local
+  Description: Command to sync the code changes between dev machine and local
   Options:
      -r, remote source code path, -r <remote_source_path>
      -l, local source code path, -l <local_source_path>
      -d, sync direction, lr=local_to_remote, rl=remote_to_local
      -p, if pull the latest code
      -c, pull changes in the first commit to a patch and apply to local
+     -h, print this help
 '''
 }
 
@@ -23,7 +24,7 @@ local_path="/Users/vixing/Development/meraki/SourceCode/co/manage"
 pullCode="false"
 isCommit="false"
 sshPrefix="vixing@dev159"
-while getopts ":d:rl:pc" opt; do
+while getopts ":d:rl:pch" opt; do
     case ${opt} in
     d)
         shift_count=$((shift_count+2))
@@ -44,6 +45,11 @@ while getopts ":d:rl:pc" opt; do
     c)
         shift_count=$((shift_count+1))
         isCommit="true"
+        ;;
+    h)
+        shift_count=$((shift_count+1))
+        print_help
+        exit 0
         ;;
     \?)
         print_help >&2
