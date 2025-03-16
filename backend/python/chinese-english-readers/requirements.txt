@@ -1,0 +1,6 @@
+sounddevice
+vosk
+gtts
+playsound
+edge-tts
+pydub
