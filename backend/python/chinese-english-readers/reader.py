@@ -22,7 +22,7 @@ from util import VOICES, parse_args
 # Detect OS for playback command
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
-    PLAY_CMD = "powershell -c (New-Object Media.SoundPlayer '{}').PlaySync();"
+    PLAY_CMD = "ffplay -nodisp -autoexit '{}'"
 elif OS_TYPE == "Darwin":  # macOS
     PLAY_CMD = "afplay '{}'"
 else:  # Linux
