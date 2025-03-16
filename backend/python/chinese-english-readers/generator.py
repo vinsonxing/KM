@@ -64,8 +64,7 @@ async def save_conversation(script: List[Tuple[str, str]], output_file: str = OU
     # Save final conversation
     combined.export(output_file, format="mp3")
     # remove temp files and folder
-    for file in audio_files:
-        os.remove(file)
+    remove_mp3_files(OUTPUT_AUDIO_FILE)
     os.rmdir(temp_folder)
 
     print(f"✅ Conversation saved as {output_file}")
