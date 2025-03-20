@@ -20,7 +20,7 @@ def remove_pinyin(text: str) -> str:
 
 
 def remove_comments(text: str) -> str:
-    return re.sub(r'----.*', '', text)
+    return re.sub(r'---.*', '', text)
 
 
 def contains_chinese(text: str) -> bool:
@@ -31,10 +31,18 @@ def contains_english(text: str) -> bool:
     return bool(re.search(r'[a-zA-Z]', text))
 
 
+def format_light_tone(text: str, light_tone: str) -> str:
+    return re.sub(fr'{light_tone}(?![0-9])', f'{light_tone}0', text)
+
+
 def normalize_line(text: str) -> str:
     cleaned_text = remove_content_in_parentheses(text)
+    cleaned_text = format_light_tone(cleaned_text, "了le")
+    cleaned_text = format_light_tone(cleaned_text, "么me")
+    cleaned_text = format_light_tone(cleaned_text, "吗ma")
     cleaned_text = remove_dot(cleaned_text)
     cleaned_text = remove_pinyin(cleaned_text)
+
     return cleaned_text
 
 
@@ -128,6 +136,10 @@ class NoteParser(Parser):
         pairs = extract_sentence_pairs_from_file(filename)
         readable_script = []
         for pair in pairs:
-            content = f"{pair[0]["content"]}  {pair[1]["content"]}"
-            readable_script.append((speaker2, content))
+            content_en = f"{pair[0]["content"]}"
+            content_ch= f"{pair[1]["content"]}"
+            if content_en:
+                readable_script.append((speaker2, content_en))
+            if content_ch:
+                readable_script.append((speaker2, content_ch))
         return readable_script
