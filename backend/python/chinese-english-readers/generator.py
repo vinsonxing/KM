@@ -27,14 +27,6 @@ async def generate_audio(speaker: str, text: str, output_file: str, speed: str =
     await communicate.save(output_file)
 
 
-def remove_mp3_files(directory: str) -> None:
-    if not directory:
-        directory = "."
-    for filename in os.listdir(directory):
-        if filename.endswith(".mp3"):
-            file_path = os.path.join(directory, filename)
-            os.remove(file_path)
-            print(f"Removed {file_path}")
 
 def remove_directory(directory: str) -> None:
     if os.path.exists(directory):
@@ -43,11 +35,18 @@ def remove_directory(directory: str) -> None:
     else:
         print(f"Directory {directory} does not exist.")
 
+def remove_file(file_path: str) -> None:
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"Removed file {file_path}")
+    else:
+        print(f"File {file_path} does not exist.")
+
 # Generate and merge conversation
 async def save_conversation(script: List[Tuple[str, str]], output_file: str = OUTPUT_AUDIO_FILE, speed: str = "-10%") -> None:
     # Remove existing mp3 file if any
     remove_directory(TEMP_AUDIO_DIRECTORY)
-    os.remove(OUTPUT_AUDIO_FILE)
+    remove_file(OUTPUT_AUDIO_FILE)
     temp_folder = TEMP_AUDIO_DIRECTORY
     os.makedirs(temp_folder, exist_ok=True)
 
