@@ -1,5 +1,6 @@
 import asyncio
 import os
+import shutil
 import sys
 from typing import List, Tuple
 
@@ -35,12 +36,18 @@ def remove_mp3_files(directory: str) -> None:
             os.remove(file_path)
             print(f"Removed {file_path}")
 
+def remove_directory(directory: str) -> None:
+    if os.path.exists(directory):
+        shutil.rmtree(directory)
+        print(f"Removed directory {directory}")
+    else:
+        print(f"Directory {directory} does not exist.")
 
 # Generate and merge conversation
 async def save_conversation(script: List[Tuple[str, str]], output_file: str = OUTPUT_AUDIO_FILE, speed: str = "-10%") -> None:
     # Remove existing mp3 file if any
-    remove_mp3_files(os.path.dirname(output_file))
-
+    remove_directory(TEMP_AUDIO_DIRECTORY)
+    os.remove(OUTPUT_AUDIO_FILE)
     temp_folder = TEMP_AUDIO_DIRECTORY
     os.makedirs(temp_folder, exist_ok=True)
 
@@ -64,8 +71,7 @@ async def save_conversation(script: List[Tuple[str, str]], output_file: str = OU
     # Save final conversation
     combined.export(output_file, format="mp3")
     # remove temp files and folder
-    remove_mp3_files(OUTPUT_AUDIO_FILE)
-    os.rmdir(temp_folder)
+    remove_directory(TEMP_AUDIO_DIRECTORY)
 
     print(f"✅ Conversation saved as {output_file}")
 
