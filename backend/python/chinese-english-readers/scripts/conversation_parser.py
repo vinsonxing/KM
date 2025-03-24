@@ -3,7 +3,7 @@ from scripts.parser import Parser
 from util import DEFAULT_SPEAKER1, DEFAULT_SPEAKER2
 
 
-def read_conversation_to_list(filename: str, *, speaker1: str = DEFAULT_SPEAKER1, speaker2: str = DEFAULT_SPEAKER2) -> \
+def read_conversation_to_list(filename:str, *, speaker1:str = DEFAULT_SPEAKER1, speaker2:str = DEFAULT_SPEAKER2) -> \
 List[Tuple[str, str]]:
     # Define the two users
     user1 = speaker1
@@ -23,20 +23,20 @@ List[Tuple[str, str]]:
         for line in lines:
             line = line.strip()
 
-            # Handle format 1: "张伟: 你好，李娜！今天过得怎么样？" (speaker and Chinese on same line)
-            if line.startswith(f"{user1}: "):
+            # Handle format 1:"张伟:你好，李娜！今天过得怎么样？" (speaker and Chinese on same line)
+            if line.startswith(f"{user1}:"):
                 if current_speaker and chinese_line:  # If previous entry incomplete, skip or handle
                     conversation_list.append((current_speaker, chinese_line))
                 current_speaker = user1
-                chinese_line = line[len(f"{user1}: "):]  # Extract Chinese text after "张伟: "
+                chinese_line = line[len(f"{user1}:"):]  # Extract Chinese text after "张伟:"
 
-            elif line.startswith(f"{user2}: "):
+            elif line.startswith(f"{user2}:"):
                 if current_speaker and chinese_line:  # If previous entry incomplete, skip or handle
                     conversation_list.append((current_speaker, chinese_line))
                 current_speaker = user2
-                chinese_line = line[len(f"{user2}: "):]  # Extract Chinese text after "李娜: "
+                chinese_line = line[len(f"{user2}:"):]  # Extract Chinese text after "李娜:"
 
-            # Handle format 2: "张伟:" (speaker on own line)
+            # Handle format 2:"张伟:" (speaker on own line)
             elif line == f"{user1}:":
                 current_speaker = user1
                 chinese_line = None
@@ -47,9 +47,9 @@ List[Tuple[str, str]]:
 
             # Handle Chinese line in format 2 or English line in either format
             elif current_speaker and line and line != f"{user1}:" and line != f"{user2}:":
-                if not chinese_line and not line.startswith(f"{user1}: ") and not line.startswith(f"{user2}: "):
+                if not chinese_line and not line.startswith(f"{user1}:") and not line.startswith(f"{user2}:"):
                     chinese_line = line  # This is the Chinese line in format 2
-                elif chinese_line and not line.startswith(f"{user1}: ") and not line.startswith(f"{user2}: "):
+                elif chinese_line and not line.startswith(f"{user1}:") and not line.startswith(f"{user2}:"):
                     # This is the English line, combine and add to list
                     combined_text = f"{chinese_line}{line}"
                     conversation_list.append((current_speaker, combined_text))
@@ -62,17 +62,17 @@ List[Tuple[str, str]]:
         return conversation_list
 
     except FileNotFoundError:
-        print(f"Error: The file '{filename}' was not found.")
+        print(f"Error:The file '{filename}' was not found.")
         return []
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        print(f"An error occurred:{str(e)}")
         return []
 
 
 class ConversationParser(Parser):
     def normalize(
             self,
-            filename: str,
-            speaker1: str = DEFAULT_SPEAKER1,
-            speaker2: str = DEFAULT_SPEAKER2) -> List[Tuple[str, str]]:
+            filename:str,
+            speaker1:str = DEFAULT_SPEAKER1,
+            speaker2:str = DEFAULT_SPEAKER2) -> List[Tuple[str, str]]:
         return read_conversation_to_list(filename, speaker1=speaker1, speaker2=speaker2)
