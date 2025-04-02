@@ -1,6 +1,6 @@
 import re
 from typing import List, Dict, Tuple
-from util import DEFAULT_SPEAKER2, DEFAULT_SPEAKER1
+from util import DEFAULT_SPEAKER2, DEFAULT_SPEAKER1, ENG_LANGUAGE_CODE, CHN_LANGUAGE_CODE
 from scripts.parser import Parser
 
 
@@ -44,6 +44,8 @@ def normalize_line(text: str) -> str:
     cleaned_text = format_light_tone(cleaned_text, "得de")
     cleaned_text = format_light_tone(cleaned_text, "地de")
     cleaned_text = format_light_tone(cleaned_text, "情qing")
+    cleaned_text = format_light_tone(cleaned_text, "西xi")
+    cleaned_text = format_light_tone(cleaned_text, "息xi")
     cleaned_text = remove_dot(cleaned_text)
     cleaned_text = remove_pinyin(cleaned_text)
 
@@ -143,7 +145,7 @@ class NoteParser(Parser):
             content_en = f"{pair[0]["content"]}"
             content_ch= f"{pair[1]["content"]}"
             if content_en:
-                readable_script.append((speaker2, content_en))
+                readable_script.append((speaker2, content_en, ENG_LANGUAGE_CODE))
             if content_ch:
-                readable_script.append((speaker2, content_ch))
+                readable_script.append((speaker2, content_ch, CHN_LANGUAGE_CODE))
         return readable_script

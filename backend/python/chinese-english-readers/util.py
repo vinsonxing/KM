@@ -1,5 +1,5 @@
 import argparse
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 
 MALE_VOICES = [
     "zh-CN-YunjianNeural",  # 中年
@@ -24,8 +24,11 @@ DEFAULT_SPEAKER_VOICE = "zh-CN-XiaoxiaoNeural"
 TEMP_AUDIO_DIRECTORY = "temp_audio"
 OUTPUT_AUDIO_FILE = "output.mp3"
 
+ENG_LANGUAGE_CODE = "eng"
+CHN_LANGUAGE_CODE = "chn"
 
-def parse_args(additional_args: Optional[Dict[str, Any]] = None) -> argparse.Namespace:
+
+def parse_args(additional_args: Optional[List[Dict[str, Any]]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="A simple Python application that processes files based on mode"
     )
@@ -41,11 +44,13 @@ def parse_args(additional_args: Optional[Dict[str, Any]] = None) -> argparse.Nam
         required=True,
         help="Path to the file to process"
     )
-    if additional_args:
+    if additional_args is None:
+        additional_args = []
+    for additional_arg in additional_args:
         parser.add_argument(
-            additional_args["short"],
-            additional_args["full"],
-            required=additional_args["required"],
-            help=additional_args["help"]
+            additional_arg["short"],
+            additional_arg["full"],
+            required=additional_arg["required"],
+            help=additional_arg["help"]
         )
     return parser.parse_args()
