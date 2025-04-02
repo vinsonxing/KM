@@ -58,7 +58,7 @@ async def speak_text(speaker: str, text: str, speed: str = "-20%") -> None:
 
 # Read and speak the conversation
 async def read_conversation(script: List[Tuple[str, str]], speed: str = "-10%") -> None:
-    for speaker, text in script:
+    for speaker, text, _ in script:
         await speak_text(speaker, text, speed)
         await asyncio.sleep(0.5)  # Small pause between lines
 

@@ -16,7 +16,7 @@ import edge_tts
 from pydub import AudioSegment
 
 from scripts.script_parser import get_parser
-from util import VOICES, OUTPUT_AUDIO_FILE, TEMP_AUDIO_DIRECTORY, parse_args
+from util import VOICES, OUTPUT_AUDIO_FILE, TEMP_AUDIO_DIRECTORY, parse_args, CHN_LANGUAGE_CODE
 
 
 # Generate audio for a line
@@ -43,7 +43,10 @@ def remove_file(file_path: str) -> None:
         print(f"File {file_path} does not exist.")
 
 # Generate and merge conversation
-async def save_conversation(script: List[Tuple[str, str]], output_file: str = OUTPUT_AUDIO_FILE, speed: str = "-10%") -> None:
+async def save_conversation(script: List[Tuple[str, str]], *,
+                            output_file: str = OUTPUT_AUDIO_FILE,
+                            speed: str = "-10%",
+                            times: int=1) -> None:
     # Remove existing mp3 file if any
     remove_directory(TEMP_AUDIO_DIRECTORY)
     remove_file(OUTPUT_AUDIO_FILE)
@@ -54,11 +57,12 @@ async def save_conversation(script: List[Tuple[str, str]], output_file: str = OU
 
     # Generate audio files
     print(f"Total {len(script)} audio files will be generated.")
-    for idx, (speaker, text) in enumerate(script):
-        temp_file = os.path.join(temp_folder, f"{idx:02d}_{speaker}.mp3")
+    for idx, (speaker, text, lang) in enumerate(script):
+        file_name = f"{idx:02d}_{speaker}_{lang}.mp3"
+        temp_file = os.path.join(temp_folder, file_name)
         await generate_audio(speaker, text, temp_file, speed=speed)
         audio_files.append(temp_file)
-        print(f"Generated {idx} files")
+        print(f"Generated {file_name} files")
 
     # Merge all audio into one file
     combined = AudioSegment.empty()
@@ -66,6 +70,9 @@ async def save_conversation(script: List[Tuple[str, str]], output_file: str = OU
     for file in audio_files:
         audio = AudioSegment.from_file(file)
         combined += audio + AudioSegment.silent(duration=1000)
+        if CHN_LANGUAGE_CODE in file:
+            for _ in range(times-1):
+                combined += audio + AudioSegment.silent(duration=1000)
 
     # Save final conversation
     combined.export(output_file, format="mp3")
@@ -77,17 +84,24 @@ async def save_conversation(script: List[Tuple[str, str]], output_file: str = OU
 
 # Run script
 if __name__ == "__main__":
-    additional_args = {
+    additional_args = [{
         "short": "-o",
         "full": "--output",
         "required": False,
         "help": "Path to store the map3 file, default output.mp3",
-    }
+    },
+    {
+        "short": "-t",
+        "full": "--times",
+        "required": False,
+        "help": "Read the Chinese script for the given times",
+    }]
 
     args = parse_args(additional_args)
     parser = get_parser(args.mode)
     script = parser.normalize(args.file_path)
-    for idx, (speaker, text) in enumerate(script):
+    times = args.times if args.times else 1
+    for idx, (speaker, text, _) in enumerate(script):
         print(f"{speaker}: {text}")
     output = args.output if args.output else OUTPUT_AUDIO_FILE
-    asyncio.run(save_conversation(script, output_file=output))
+    asyncio.run(save_conversation(script, output_file=output, times=int(times)))
