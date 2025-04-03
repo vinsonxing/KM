@@ -4,3 +4,6 @@ gtts
 playsound
 edge-tts
 pydub
+fpdf2
+pysmbclient
+smbprotocol

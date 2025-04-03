@@ -99,7 +99,7 @@ if __name__ == "__main__":
 
     args = parse_args(additional_args)
     parser = get_parser(args.mode)
-    script = parser.normalize(args.file_path)
+    script = parser.normalize(filename=args.file_path)
     times = args.times if args.times else 1
     for idx, (speaker, text, _) in enumerate(script):
         print(f"{speaker}: {text}")

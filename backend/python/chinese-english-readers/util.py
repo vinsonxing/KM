@@ -1,4 +1,6 @@
 import argparse
+import os
+from pathlib import Path
 from typing import Any, Dict, Optional, List
 
 MALE_VOICES = [
@@ -27,6 +29,10 @@ OUTPUT_AUDIO_FILE = "output.mp3"
 ENG_LANGUAGE_CODE = "eng"
 CHN_LANGUAGE_CODE = "chn"
 
+HOSTNAME = "192.168.0.107"
+USERNAME = "luqian"
+PASSWORD = "Lovelq123"
+
 
 def parse_args(additional_args: Optional[List[Dict[str, Any]]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -54,3 +60,19 @@ def parse_args(additional_args: Optional[List[Dict[str, Any]]] = None) -> argpar
             help=additional_arg["help"]
         )
     return parser.parse_args()
+
+
+def find_project_root(indicator_files=None):
+    if indicator_files is None:
+        indicator_files = ['.git', 'requirements.txt']
+
+    current_path = Path(os.getcwd())
+    for parent in current_path.parents:
+        for indicator in indicator_files:
+            if (parent / indicator).exists():
+                return parent
+    return None
+
+
+def get_shared_path(user):
+    return f"teaching slides/{user}/grammar notes"

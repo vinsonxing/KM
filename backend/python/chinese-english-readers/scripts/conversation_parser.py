@@ -72,7 +72,8 @@ List[Tuple[str, str]]:
 class ConversationParser(Parser):
     def normalize(
             self,
-            filename:str,
-            speaker1:str = DEFAULT_SPEAKER1,
-            speaker2:str = DEFAULT_SPEAKER2) -> List[Tuple[str, str]]:
+            filename: str = "",
+            text: str = "",
+            speaker1: str = DEFAULT_SPEAKER1,
+            speaker2: str = DEFAULT_SPEAKER2) -> List[Tuple[str, str]]:
         return read_conversation_to_list(filename, speaker1=speaker1, speaker2=speaker2)
