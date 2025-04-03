@@ -54,6 +54,12 @@ if __name__ == "__main__":
         description="Generate the pdf and audio automatically, and copy them to the remote folder"
     )
     parser.add_argument(
+        "-u", "--user",
+        type=str,
+        required=False,
+        help="Specify the user"
+    )
+    parser.add_argument(
         "-t", "--times",
         type=str,
         required=False,
@@ -66,5 +72,5 @@ if __name__ == "__main__":
         help="Host IP"
     )
     args = parser.parse_args()
-    asyncio.run(flow("Dean", host=args.host, times=args.times))
+    asyncio.run(flow(args.user, host=args.host, times=args.times))
 
