@@ -18,7 +18,7 @@ async def flow(user, workdir, times=1):
     notes_folder = os.path.join(workdir, get_path(user))
 
     # # 1. get the target notes
-    files = get_local_notes(notes_folder, last_x_days=7000)
+    files = get_local_notes(notes_folder, last_x_days=7)
     if not files:
         return
 
