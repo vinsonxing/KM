@@ -67,5 +67,5 @@ async def read_conversation(script: List[Tuple[str, str]], speed: str = "-10%") 
 if __name__ == "__main__":
     args = parse_args()
     parser = get_parser(args.mode)
-    script = parser.normalize(args.file_path)
+    script = parser.normalize(filename=args.file_path)
     asyncio.run(read_conversation(script))

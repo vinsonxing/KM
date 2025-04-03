@@ -136,14 +136,26 @@ def _extract_sentence_pairs_from_lines(lines: List[str]) -> List[List[Dict[str, 
 class NoteParser(Parser):
     def normalize(
             self,
-            filename: str,
+            filename: str = "",
+            text: str = "",
             speaker1: str = DEFAULT_SPEAKER1,
             speaker2: str = DEFAULT_SPEAKER2) -> List[Tuple[str, str]]:
-        pairs = extract_sentence_pairs_from_file(filename)
+        pairs = []
+        if filename:
+            pairs = extract_sentence_pairs_from_file(filename)
+        elif text:
+            pairs = extract_sentence_pairs_from_text(text)
+        return self._normalize(pairs, speaker1=speaker1, speaker2=speaker2)
+
+
+    def _normalize(self,
+                   pairs: List[List[Dict[str, str]]],
+                   speaker1: str = DEFAULT_SPEAKER1,
+                   speaker2: str = DEFAULT_SPEAKER2) -> List[Tuple[str, str]]:
         readable_script = []
         for pair in pairs:
             content_en = f"{pair[0]["content"]}"
-            content_ch= f"{pair[1]["content"]}"
+            content_ch = f"{pair[1]["content"]}"
             if content_en:
                 readable_script.append((speaker2, content_en, ENG_LANGUAGE_CODE))
             if content_ch:
