@@ -10,13 +10,13 @@ from generator import save_conversation
 TMP_FOLDER = "tmp"
 
 
-async def flow(user, times=1):
+async def flow(user, host=HOSTNAME, times=1):
     # check if the folder exists before removal
     if os.path.exists(TMP_FOLDER):
         shutil.rmtree(TMP_FOLDER)
 
     # # 1. get the target notes
-    files = get_target_notes(HOSTNAME, USERNAME, PASSWORD, get_shared_path(user), last_x_days=7000)
+    files = get_target_notes(host, USERNAME, PASSWORD, get_shared_path(user), last_x_days=7000)
     if not files:
         return
 
@@ -24,7 +24,7 @@ async def flow(user, times=1):
     os.makedirs(TMP_FOLDER, exist_ok=True)
     # 3. copy the target notes to the tmp folder
     for file in files:
-        copy_file_to_local(HOSTNAME, USERNAME, PASSWORD, get_shared_path(user), file['name'], TMP_FOLDER)
+        copy_file_to_local(host, USERNAME, PASSWORD, get_shared_path(user), file['name'], TMP_FOLDER)
 
         # 4. convert the txt file to pdf
         filename = f"{TMP_FOLDER}/{file['name']}"
@@ -41,9 +41,9 @@ async def flow(user, times=1):
         await save_conversation(script, output_file=audio_file, times=int(times))
 
         # copy audio to remote
-        copy_file_to_remote_folder(HOSTNAME, USERNAME, PASSWORD, get_shared_path(user), audio_file)
+        copy_file_to_remote_folder(host, USERNAME, PASSWORD, get_shared_path(user), audio_file)
         # copy pdf at the last step, ensure the audio is generated successfully
-        copy_file_to_remote_folder(HOSTNAME, USERNAME, PASSWORD, get_shared_path(user), pdf_file)
+        copy_file_to_remote_folder(host, USERNAME, PASSWORD, get_shared_path(user), pdf_file)
     # 5. remove the tmp folder
     if os.path.exists(TMP_FOLDER):
         shutil.rmtree(TMP_FOLDER)
@@ -59,6 +59,12 @@ if __name__ == "__main__":
         required=False,
         help="Speak Chinese times"
     )
+    parser.add_argument(
+        "-h", "--host",
+        type=str,
+        required=False,
+        help="Host IP"
+    )
     args = parser.parse_args()
-    asyncio.run(flow("Dean", times=args.times))
+    asyncio.run(flow("Dean", host=args.host, times=args.times))
 
