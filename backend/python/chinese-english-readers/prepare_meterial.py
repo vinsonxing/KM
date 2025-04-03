@@ -72,5 +72,8 @@ if __name__ == "__main__":
         help="Host IP"
     )
     args = parser.parse_args()
-    asyncio.run(flow(args.user, host=args.host, times=args.times))
+    host = args.host
+    if not host:
+        host = HOSTNAME
+    asyncio.run(flow(args.user, host=host, times=args.times))
 
