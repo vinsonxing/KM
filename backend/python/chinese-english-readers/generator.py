@@ -60,7 +60,9 @@ async def save_conversation(script: List[Tuple[str, str]], *,
     for idx, (speaker, text, lang) in enumerate(script):
         file_name = f"{idx:02d}_{speaker}_{lang}.mp3"
         temp_file = os.path.join(temp_folder, file_name)
-        await generate_audio(speaker, text, temp_file, speed=speed)
+        for _ in range(3):
+            if await _generate_audio(speaker, text, temp_file, speed):
+                break
         audio_files.append(temp_file)
         print(f"Generated {file_name} files")
 
@@ -81,6 +83,14 @@ async def save_conversation(script: List[Tuple[str, str]], *,
 
     print(f"✅ Conversation saved as {output_file}")
 
+
+async def _generate_audio(speaker, text, temp_file, speed):
+    try:
+        await generate_audio(speaker, text, temp_file, speed=speed)
+        return True
+    except Exception as e:
+        print(f"Error occurred while generating audio: {e}")
+        return False
 
 # Run script
 if __name__ == "__main__":
