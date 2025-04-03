@@ -66,7 +66,7 @@ if __name__ == "__main__":
         help="Speak Chinese times"
     )
     parser.add_argument(
-        "-h", "--host",
+        "-H", "--Host",
         type=str,
         required=False,
         help="Host IP"
