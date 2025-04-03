@@ -96,10 +96,10 @@ def _process_pair_in_chn(eng: str, chn: str, pairs: List[List[Dict[str, str]]]) 
     print(f"Chinese: {chn}")
 
 
-def _extract_sentence_pairs_from_lines(lines: List[str]) -> List[List[Dict[str, str]]]:
+def _extract_sentence_pairs_from_lines(raw_lines: List[str]) -> List[List[Dict[str, str]]]:
     pairs = []
     i = 0
-
+    lines = [line for line in raw_lines if line.strip()]
     while i < len(lines) - 1:
         eng = remove_comments(lines[i].strip())
 
