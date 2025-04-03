@@ -3,20 +3,45 @@ import os
 from datetime import datetime
 
 
-def get_target_notes(hostname, username, password, share_name, require_most_recent=False, last_x_days=7):
-    """
-    Access a Windows shared folder and find the most recent .txt file
+def get_local_notes(folder_path, require_most_recent=False, last_x_days=7):
+    try:
+        files = []
+        for file in os.scandir(folder_path):
+            if ((file.name.lower().endswith('.txt') or file.name.lower().endswith('.pdf'))
+                    and file.is_file()):
+                stat = file.stat()
+                _record_file(file, stat, files, last_x_days)
 
-    Args:
-        hostname (str): Windows machine hostname or IP address
-        username (str): Username for authentication
-        password (str): Password for authentication
-        share_name (str): Name of the shared folder
+        return _extract_missed_pdf_files(files, require_most_recent)
+    except Exception as e:
+        print(f"Error accessing shared folder: {e}")
+        return None
 
-    Returns:
-        tuple: (filename, content) of the most recent .txt file
-        :param require_most_recent:
-    """
+def _record_file(file, stat, files, last_x_days):
+    if (datetime.now() - datetime.fromtimestamp(stat.st_mtime)).days <= last_x_days:
+        files.append({
+            'name': file.name,
+            'type': 'txt' if file.name.lower().endswith('.txt') else 'pdf',
+            'path': file.path,
+            'mtime': stat.st_mtime
+        })
+
+def _extract_missed_pdf_files(files, require_most_recent=False):
+    if not files:
+        print("No txt files found in the folder.")
+        return None
+    txt_files = [file for file in files if file['type'] == 'txt']
+    pdf_files = [file for file in files if file['type'] == 'pdf']
+    txt_files_no_pdf = [file for file in txt_files if
+                        file['name'].replace('.txt', '.pdf') not in [pdf_file['name'] for pdf_file in
+                                                                     pdf_files]]
+    if require_most_recent:
+        most_recent = max(txt_files_no_pdf, key=lambda x: x['mtime'])
+        return [most_recent]
+
+    return txt_files_no_pdf
+
+def get_remote_notes(hostname, username, password, share_name, require_most_recent=False, last_x_days=7):
     # Configure the SMB client
     smbclient.ClientConfig(username=username, password=password)
 
@@ -30,44 +55,36 @@ def get_target_notes(hostname, username, password, share_name, require_most_rece
             if ((file.name.lower().endswith('.txt') or file.name.lower().endswith('.pdf'))
                     and file.is_file()):
                 stat = smbclient.stat(os.path.join(share_path, file.name))
-
-                if (datetime.now() - datetime.fromtimestamp(stat.st_mtime)).days <= last_x_days:
-                    files.append({
-                        'name': file.name,
-                        'type': 'txt' if file.name.lower().endswith('.txt') else 'pdf',
-                        'path': os.path.join(share_path, file.name),
-                        'mtime': stat.st_mtime
-                    })
-
-        if not files:
-            print("No txt or pdf files found in the shared folder.")
-            return None
-
-        # find out the txt file which has not corresponding pdf file in the same folder
-        txt_files = [file for file in files if file['type'] == 'txt']
-        pdf_files = [file for file in files if file['type'] == 'pdf']
-        txt_files_no_pdf = [file for file in txt_files if
-                            file['name'].replace('.txt', '.pdf') not in [pdf_file['name'] for pdf_file in pdf_files]]
-
-        # Find the most recently modified file
-
-        # Read the file content
-
-        if require_most_recent:
-            most_recent = max(txt_files_no_pdf, key=lambda x: x['mtime'])
-            return [most_recent]
-
-        return txt_files_no_pdf
+                _record_file(file, stat, files, last_x_days)
+        return _extract_missed_pdf_files(files, require_most_recent)
 
     except Exception as e:
         print(f"Error accessing shared folder: {e}")
         return None
 
-def _build_filename_content_dict(file):
-    with smbclient.open_file(file['path'], mode='r', encoding='gbk', errors='replace') as f:
-        content = f.read()
-    return {file['name']: content}
 
+def copy_file(workdir, file_name, target_folder):
+    try:
+        # Connect to the shared folder
+        source_path=os.path.join(workdir, file_name)
+        target_file_path = os.path.join(target_folder, file_name)
+
+        # Open remote file in binary mode and write to local file with correct encoding
+        with open(source_path, mode='rb') as source_file:
+            content = source_file.read()
+            try:
+                decoded_content = content.decode('gbk')
+                with open(target_file_path, 'w', encoding='utf-8') as local_file:
+                    local_file.write(decoded_content)
+            except UnicodeDecodeError:
+                # If fail, fall back to binary copy
+                with open(target_file_path, 'wb') as local_file:
+                    local_file.write(content)
+
+        print(f"File {os.path.basename(file_name)} copied to {target_file_path} successfully.")
+    except Exception as e:
+        print(f"Error copying file to remote folder: {e}")
+        raise e
 
 def copy_file_to_local(hostname, username, password, share_name, file_name, local_folder):
     # Configure the SMB client

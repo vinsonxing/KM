@@ -74,5 +74,5 @@ def find_project_root(indicator_files=None):
     return None
 
 
-def get_shared_path(user):
+def get_path(user):
     return f"teaching slides/{user}/grammar notes"
