@@ -76,5 +76,5 @@ if __name__ == "__main__":
     times = args.times if args.times else 1
     if not host:
         host = HOSTNAME
-    asyncio.run(flow(args.user, host=host, times=args.times))
+    asyncio.run(flow(args.user, host=host, times=times))
 
