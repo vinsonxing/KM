@@ -32,7 +32,8 @@ CHN_LANGUAGE_CODE = "chn"
 HOSTNAME = "192.168.0.107"
 USERNAME = "luqian"
 PASSWORD = "Lovelq123"
-
+SLIDES_DIR = "teaching slides"
+GRAMMAR_NOTES_DIR = "grammar notes"
 
 def parse_args(additional_args: Optional[List[Dict[str, Any]]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -75,4 +76,5 @@ def find_project_root(indicator_files=None):
 
 
 def get_path(user):
-    return f"teaching slides/{user}/grammar notes"
+    return f"{SLIDES_DIR}/{user}/{GRAMMAR_NOTES_DIR}"
+
