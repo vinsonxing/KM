@@ -20,7 +20,7 @@ def remove_pinyin(text: str) -> str:
 
 
 def remove_comments(text: str) -> str:
-    return re.sub(r'---.*', '', text)
+    return re.sub(r'^(--.*|\*.*|#.*|//.*)', '', text, flags=re.MULTILINE)
 
 
 def contains_chinese(text: str) -> bool:
@@ -47,6 +47,7 @@ def normalize_line(text: str) -> str:
     cleaned_text = format_light_tone(cleaned_text, "西xi")
     cleaned_text = format_light_tone(cleaned_text, "息xi")
     cleaned_text = format_light_tone(cleaned_text, "子zi")
+    cleaned_text = format_light_tone(cleaned_text, "方fang")
     cleaned_text = remove_dot(cleaned_text)
     cleaned_text = remove_pinyin(cleaned_text)
 

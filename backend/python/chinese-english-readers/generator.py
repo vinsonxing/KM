@@ -2,6 +2,7 @@ import asyncio
 import os
 import shutil
 import sys
+import time
 from typing import List, Tuple
 
 here = os.path.dirname(__file__)
@@ -27,26 +28,21 @@ async def generate_audio(speaker: str, text: str, output_file: str, speed: str =
     await communicate.save(output_file)
 
 
-
 def remove_directory(directory: str) -> None:
     if os.path.exists(directory):
         shutil.rmtree(directory)
-        print(f"Removed directory {directory}")
-    else:
-        print(f"Directory {directory} does not exist.")
+
 
 def remove_file(file_path: str) -> None:
     if os.path.exists(file_path):
         os.remove(file_path)
-        print(f"Removed file {file_path}")
-    else:
-        print(f"File {file_path} does not exist.")
+
 
 # Generate and merge conversation
 async def save_conversation(script: List[Tuple[str, str]], *,
                             output_file: str = OUTPUT_AUDIO_FILE,
                             speed: str = "-10%",
-                            times: int=1) -> None:
+                            times: int = 1) -> None:
     # Remove existing mp3 file if any
     remove_directory(TEMP_AUDIO_DIRECTORY)
     remove_file(OUTPUT_AUDIO_FILE)
@@ -64,7 +60,8 @@ async def save_conversation(script: List[Tuple[str, str]], *,
             if await _generate_audio(speaker, text, temp_file, speed):
                 break
         audio_files.append(temp_file)
-        print(f"Generated {file_name} files")
+        print(f"\rProgress: {idx}/{len(script)}", end="", flush=True)
+    print()
 
     # Merge all audio into one file
     combined = AudioSegment.empty()
@@ -73,7 +70,7 @@ async def save_conversation(script: List[Tuple[str, str]], *,
         audio = AudioSegment.from_file(file)
         combined += audio + AudioSegment.silent(duration=1000)
         if CHN_LANGUAGE_CODE in file:
-            for _ in range(times-1):
+            for _ in range(times - 1):
                 combined += audio + AudioSegment.silent(duration=1000)
 
     # Save final conversation
@@ -81,7 +78,7 @@ async def save_conversation(script: List[Tuple[str, str]], *,
     # remove temp files and folder
     remove_directory(TEMP_AUDIO_DIRECTORY)
 
-    print(f"✅ Conversation saved as {output_file}")
+    print(f"Conversation saved as {output_file}")
 
 
 async def _generate_audio(speaker, text, temp_file, speed):
@@ -92,6 +89,7 @@ async def _generate_audio(speaker, text, temp_file, speed):
         print(f"Error occurred while generating audio: {e}")
         return False
 
+
 # Run script
 if __name__ == "__main__":
     additional_args = [{
@@ -100,12 +98,12 @@ if __name__ == "__main__":
         "required": False,
         "help": "Path to store the map3 file, default output.mp3",
     },
-    {
-        "short": "-t",
-        "full": "--times",
-        "required": False,
-        "help": "Read the Chinese script for the given times",
-    }]
+        {
+            "short": "-t",
+            "full": "--times",
+            "required": False,
+            "help": "Read the Chinese script for the given times",
+        }]
 
     args = parse_args(additional_args)
     parser = get_parser(args.mode)

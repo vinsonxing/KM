@@ -1,6 +1,7 @@
 import smbclient
 import os
 from datetime import datetime
+from util import GRAMMAR_NOTES_DIR
 
 
 def get_local_notes(folder_path, require_most_recent=False, last_x_days=7):
@@ -17,6 +18,7 @@ def get_local_notes(folder_path, require_most_recent=False, last_x_days=7):
         print(f"Error accessing shared folder: {e}")
         return None
 
+
 def _record_file(file, stat, files, last_x_days):
     if (datetime.now() - datetime.fromtimestamp(stat.st_mtime)).days <= last_x_days:
         files.append({
@@ -26,9 +28,9 @@ def _record_file(file, stat, files, last_x_days):
             'mtime': stat.st_mtime
         })
 
+
 def _extract_missed_pdf_files(files, require_most_recent=False):
     if not files:
-        print("No txt files found in the folder.")
         return None
     txt_files = [file for file in files if file['type'] == 'txt']
     pdf_files = [file for file in files if file['type'] == 'pdf']
@@ -40,6 +42,7 @@ def _extract_missed_pdf_files(files, require_most_recent=False):
         return [most_recent]
 
     return txt_files_no_pdf
+
 
 def get_remote_notes(hostname, username, password, share_name, require_most_recent=False, last_x_days=7):
     # Configure the SMB client
@@ -63,10 +66,27 @@ def get_remote_notes(hostname, username, password, share_name, require_most_rece
         return None
 
 
-def copy_file(workdir, file_name, target_folder):
+def get_local_valid_users(workdir, notes_folder=GRAMMAR_NOTES_DIR, last_x_days=7):
+    # list all the folder names in workdir
+    users = {}
+    for folder in os.scandir(workdir):
+        if folder.is_dir() and not folder.name.startswith('.'):
+            full_notes_folder = os.path.join(workdir, folder.name, notes_folder)
+            if not is_valid_folder(full_notes_folder):
+                continue
+            files = get_local_notes(full_notes_folder, last_x_days=last_x_days)
+            if files and len(files) > 0:
+                users[folder.name] = files
+    return users
+
+
+def is_valid_folder(path):
+    return os.path.exists(path) and os.path.isdir(path)
+
+def copy_file(source_folder, file_name, target_folder):
     try:
         # Connect to the shared folder
-        source_path=os.path.join(workdir, file_name)
+        source_path = os.path.join(source_folder, file_name)
         target_file_path = os.path.join(target_folder, file_name)
 
         # Open remote file in binary mode and write to local file with correct encoding
@@ -81,10 +101,10 @@ def copy_file(workdir, file_name, target_folder):
                 with open(target_file_path, 'wb') as local_file:
                     local_file.write(content)
 
-        print(f"File {os.path.basename(file_name)} copied to {target_file_path} successfully.")
     except Exception as e:
         print(f"Error copying file to remote folder: {e}")
         raise e
+
 
 def copy_file_to_local(hostname, username, password, share_name, file_name, local_folder):
     # Configure the SMB client
@@ -108,8 +128,6 @@ def copy_file_to_local(hostname, username, password, share_name, file_name, loca
                 # If fail, fall back to binary copy
                 with open(local_file_path, 'wb') as local_file:
                     local_file.write(content)
-
-        print(f"File {os.path.basename(file_name)} copied to {local_file_path} successfully.")
     except Exception as e:
         print(f"Error copying file to remote folder: {e}")
         raise e
@@ -126,26 +144,26 @@ def copy_file_to_remote_folder(hostname, username, password, share_name, file_pa
         remote_path = os.path.join(share_path, os.path.basename(file_path))
         with open(file_path, 'rb') as f:
             smbclient.open_file(remote_path, mode='wb').write(f.read())
-        print(f"File {os.path.basename(file_path)} copied to {remote_path} successfully.")
     except Exception as e:
         print(f"Error copying file to remote folder: {e}")
         raise e
 
 
 if __name__ == "__main__":
-    from util import find_project_root
+    from util import find_project_root, GRAMMAR_NOTES_DIR
+    import json
 
     # Configuration - replace with your Windows share details
-    HOSTNAME = "192.168.0.107"  # or IP address like "192.168.1.100"
-    USERNAME = "luqian"
-    PASSWORD = "Lovelq123"
-    SHARE_NAME = "teaching slides/Alvin/grammar notes"  # Name of the shared folder
+    # HOSTNAME = "192.168.0.107"  # or IP address like "192.168.1.100"
+    # USERNAME = "luqian"
+    # PASSWORD = "Lovelq123"
+    # SHARE_NAME = "teaching slides/Alvin/grammar notes"  # Name of the shared folder
     # Get the most recent .txt file and its content
-    filename = get_target_notes(HOSTNAME, USERNAME, PASSWORD, SHARE_NAME, last_x_days=7000)
-    print(f"Most recent .txt file: {filename.split('.')[0]}")
+    # filename = get_remote_notes(HOSTNAME, USERNAME, PASSWORD, SHARE_NAME, last_x_days=7000)
     # copy_file_to_remote_folder(HOSTNAME, USERNAME, PASSWORD, SHARE_NAME, f"{find_project_root()}/test.pdf")
 
-    # if filename and content:
-    #     print("\nFile Content:")
-    #     print("-------------")
-    #     print(content)
+    res = get_local_valid_users("/Users/vixing/Vinson/test/teaching slides", last_x_days=7000)
+    # print the result in formatted json
+
+    res = json.dumps(res, indent=4, ensure_ascii=False)
+    print(res)
