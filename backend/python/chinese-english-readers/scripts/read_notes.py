@@ -8,12 +8,12 @@ def get_local_notes(folder_path, require_most_recent=False, last_x_days=7):
     try:
         files = []
         for file in os.scandir(folder_path):
-            if ((file.name.lower().endswith('.txt') or file.name.lower().endswith('.pdf'))
+            if ((file.name.lower().endswith('.txt') or file.name.lower().endswith('.mp3'))
                     and file.is_file()):
                 stat = file.stat()
                 _record_file(file, stat, files, last_x_days)
 
-        return _extract_missed_pdf_files(files, require_most_recent)
+        return _extract_missed_mp3_files(files, require_most_recent)
     except Exception as e:
         print(f"Error accessing shared folder: {e}")
         return None
@@ -23,25 +23,25 @@ def _record_file(file, stat, files, last_x_days):
     if (datetime.now() - datetime.fromtimestamp(stat.st_mtime)).days <= last_x_days:
         files.append({
             'name': file.name,
-            'type': 'txt' if file.name.lower().endswith('.txt') else 'pdf',
+            'type': 'txt' if file.name.lower().endswith('.txt') else 'mp3',
             'path': file.path,
             'mtime': stat.st_mtime
         })
 
 
-def _extract_missed_pdf_files(files, require_most_recent=False):
+def _extract_missed_mp3_files(files, require_most_recent=False):
     if not files:
         return None
     txt_files = [file for file in files if file['type'] == 'txt']
-    pdf_files = [file for file in files if file['type'] == 'pdf']
-    txt_files_no_pdf = [file for file in txt_files if
-                        file['name'].replace('.txt', '.pdf') not in [pdf_file['name'] for pdf_file in
-                                                                     pdf_files]]
+    mp3_files = [file for file in files if file['type'] == 'mp3']
+    txt_files_no_mp3 = [file for file in txt_files if
+                        file['name'].replace('.txt', '.mp3') not in [mp3_file['name'] for mp3_file in
+                                                                     mp3_files]]
     if require_most_recent:
-        most_recent = max(txt_files_no_pdf, key=lambda x: x['mtime'])
+        most_recent = max(txt_files_no_mp3, key=lambda x: x['mtime'])
         return [most_recent]
 
-    return txt_files_no_pdf
+    return txt_files_no_mp3
 
 
 def get_remote_notes(hostname, username, password, share_name, require_most_recent=False, last_x_days=7):
@@ -55,11 +55,11 @@ def get_remote_notes(hostname, username, password, share_name, require_most_rece
         # Find all .txt files with their modification times
         files = []
         for file in smbclient.scandir(share_path):
-            if ((file.name.lower().endswith('.txt') or file.name.lower().endswith('.pdf'))
+            if ((file.name.lower().endswith('.txt') or file.name.lower().endswith('.mp3'))
                     and file.is_file()):
                 stat = smbclient.stat(os.path.join(share_path, file.name))
                 _record_file(file, stat, files, last_x_days)
-        return _extract_missed_pdf_files(files, require_most_recent)
+        return _extract_missed_mp3_files(files, require_most_recent)
 
     except Exception as e:
         print(f"Error accessing shared folder: {e}")
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     # SHARE_NAME = "teaching slides/Alvin/grammar notes"  # Name of the shared folder
     # Get the most recent .txt file and its content
     # filename = get_remote_notes(HOSTNAME, USERNAME, PASSWORD, SHARE_NAME, last_x_days=7000)
-    # copy_file_to_remote_folder(HOSTNAME, USERNAME, PASSWORD, SHARE_NAME, f"{find_project_root()}/test.pdf")
+    # copy_file_to_remote_folder(HOSTNAME, USERNAME, PASSWORD, SHARE_NAME, f"{find_project_root()}/test.mp3")
 
     res = get_local_valid_users("/Users/vixing/Vinson/test/teaching slides", last_x_days=7000)
     # print the result in formatted json
