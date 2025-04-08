@@ -11,10 +11,12 @@ from generator import save_conversation
 TMP_FOLDER = "tmp"
 TWO_TIMES_USERS = ["SOO"]
 
+
 class GeneratorContext:
 
     def __init__(self, user):
         self.user = user
+
     def __enter__(self):
         # check if the folder exists before removal
         if os.path.exists(TMP_FOLDER):
@@ -26,14 +28,21 @@ class GeneratorContext:
             shutil.rmtree(TMP_FOLDER)
         print(f"✅ Generated audio and pdf for user [{self.user}]")
 
-async def generate_by_user(user, workdir, times=1):
+
+async def generate_by_user(user, workdir, times=1, last_x_days=7, latest_x_files=None):
     notes_folder = os.path.join(workdir, get_path(user))
 
     # # 1. get the target notes
-    files = get_local_notes(notes_folder, last_x_days=7)
+    files = get_local_notes(notes_folder, last_x_days=last_x_days)
     if not files:
         return
-    await _generate_by_user(user, files, notes_folder, times=times)
+    if not latest_x_files:
+        latest_x_files = len(files)
+
+    latest_x_files = min(latest_x_files, len(files))
+
+    top_files = files[:latest_x_files]
+    await _generate_by_user(user, top_files, notes_folder, times=times)
 
 
 async def _generate_by_user(user, files, notes_folder, times=1):
@@ -63,19 +72,26 @@ async def _generate_by_user(user, files, notes_folder, times=1):
             # copy pdf at the last step, ensure the audio is generated successfully
             copy_file(TMP_FOLDER, pdf_file, notes_folder)
 
-async def generate_all_users(workdir, times=1):
-    users = get_local_valid_users(os.path.join(workdir, SLIDES_DIR))
+
+async def generate_all_users(workdir, times=1, last_x_days=7, latest_x_files=None):
+    users = get_local_valid_users(os.path.join(workdir, SLIDES_DIR), last_x_days=last_x_days)
     if not users or len(users) == 0:
         print("All users are all up to date, no need to generate audio and pdf files")
         return
     print(f"Will generate audio and pdf for the following users: {[user for user in users.keys()]}")
+
     report = {}
     for user, files in users.items():
         notes_folder = os.path.join(workdir, get_path(user))
         if user in TWO_TIMES_USERS:
             times = 2
-        await _generate_by_user(user, files, notes_folder, times=times)
-        report[user] = [file['name'] for file in files]
+
+        if not latest_x_files:
+            latest_x_files = len(files)
+        latest_x_files = min(latest_x_files, len(files))
+        top_files = files[:latest_x_files]
+        await _generate_by_user(user, top_files, notes_folder, times=times)
+        report[user] = [file['name'] for file in top_files]
     print(f"""
 Report:
 Generate audio and pdf for the following users:
@@ -83,6 +99,7 @@ Generate audio and pdf for the following users:
     """)
     with open('report.json', 'w') as f:
         f.write(format_report(report))
+
 
 def format_report(report):
     return json.dumps(report, indent=4, ensure_ascii=False)
@@ -110,10 +127,24 @@ if __name__ == "__main__":
         required=False,
         help="Work Directory"
     )
+    parser.add_argument(
+        "-d", "--days",
+        type=str,
+        required=False,
+        help="Days ago"
+    )
+    parser.add_argument(
+        "-c", "--count",
+        type=str,
+        required=False,
+        help="Latest top count file"
+    )
     args = parser.parse_args()
     workdir = args.workdir
-    times = args.times if args.times else 1
+    times = int(args.times) if args.times else 1
+    days = int(args.days) if args.days else 7
+    count = int(args.count) if args.count else None
     if args.user:
-        asyncio.run(generate_by_user(args.user, workdir, times=times))
+        asyncio.run(generate_by_user(args.user, workdir, times=times, last_x_days=days, latest_x_files=count))
     else:
-        asyncio.run(generate_all_users(workdir, times=times))
+        asyncio.run(generate_all_users(workdir, times=times, last_x_days=days, latest_x_files=count))
