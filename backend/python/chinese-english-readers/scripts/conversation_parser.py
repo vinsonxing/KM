@@ -1,6 +1,6 @@
 from typing import List, Tuple
 from scripts.parser import Parser
-from util import DEFAULT_SPEAKER1, DEFAULT_SPEAKER2
+from util import DEFAULT_SPEAKER1, DEFAULT_SPEAKER2, CHN_LANGUAGE_CODE
 
 
 def read_conversation_to_list(filename:str, *, speaker1:str = DEFAULT_SPEAKER1, speaker2:str = DEFAULT_SPEAKER2) -> \
@@ -26,13 +26,13 @@ List[Tuple[str, str]]:
             # Handle format 1:"张伟:你好，李娜！今天过得怎么样？" (speaker and Chinese on same line)
             if line.startswith(f"{user1}:"):
                 if current_speaker and chinese_line:  # If previous entry incomplete, skip or handle
-                    conversation_list.append((current_speaker, chinese_line))
+                    conversation_list.append((current_speaker, chinese_line, CHN_LANGUAGE_CODE))
                 current_speaker = user1
                 chinese_line = line[len(f"{user1}:"):]  # Extract Chinese text after "张伟:"
 
             elif line.startswith(f"{user2}:"):
                 if current_speaker and chinese_line:  # If previous entry incomplete, skip or handle
-                    conversation_list.append((current_speaker, chinese_line))
+                    conversation_list.append((current_speaker, chinese_line, CHN_LANGUAGE_CODE))
                 current_speaker = user2
                 chinese_line = line[len(f"{user2}:"):]  # Extract Chinese text after "李娜:"
 
@@ -52,12 +52,12 @@ List[Tuple[str, str]]:
                 elif chinese_line and not line.startswith(f"{user1}:") and not line.startswith(f"{user2}:"):
                     # This is the English line, combine and add to list
                     combined_text = f"{chinese_line}{line}"
-                    conversation_list.append((current_speaker, combined_text))
+                    conversation_list.append((current_speaker, combined_text, CHN_LANGUAGE_CODE))
                     chinese_line = None
 
         # Handle any remaining entry
         if current_speaker and chinese_line:
-            conversation_list.append((current_speaker, chinese_line))
+            conversation_list.append((current_speaker, chinese_line, CHN_LANGUAGE_CODE))
 
         return conversation_list
 
