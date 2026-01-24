@@ -6,3 +6,7 @@ bin
 build
 __pycache__
 *.pyc
+.venv
+*.mp3
+*.wav
+*.m4a
