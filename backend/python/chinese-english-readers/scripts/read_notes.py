@@ -39,9 +39,9 @@ def _extract_missed_mp3_files(files, require_most_recent=False):
                                                                      mp3_files]]
     if require_most_recent:
         most_recent = max(txt_files_no_mp3, key=lambda x: x['mtime'])
-        return [most_recent]
+        return [most_recent]    
+    return sorted(txt_files_no_mp3, key=lambda x: x['mtime'], reverse=True)
 
-    return txt_files_no_mp3
 
 
 def get_remote_notes(hostname, username, password, share_name, require_most_recent=False, last_x_days=7):

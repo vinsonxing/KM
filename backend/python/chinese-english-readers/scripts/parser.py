@@ -41,6 +41,7 @@ def normalize_line(text: str) -> str:
     cleaned_text = format_light_tone(cleaned_text, "子zi")
     cleaned_text = format_light_tone(cleaned_text, "方fang")
     cleaned_text = format_light_tone(cleaned_text, "呢ne")
+    cleaned_text = format_light_tone(cleaned_text, "思si")
     cleaned_text = remove_dot(cleaned_text)
     cleaned_text = remove_pinyin(cleaned_text)
 
