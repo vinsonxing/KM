@@ -12,6 +12,7 @@ if root not in sys.path:
 
 import platform
 import tempfile
+import subprocess
 from typing import List, Tuple
 
 import edge_tts
@@ -19,14 +20,35 @@ import edge_tts
 from scripts.script_parser import get_parser
 from util import VOICES, parse_args
 
-# Detect OS for playback command
-OS_TYPE = platform.system()
-if OS_TYPE == "Windows":
-    PLAY_CMD = "ffplay -nodisp -autoexit '{}'"
-elif OS_TYPE == "Darwin":  # macOS
-    PLAY_CMD = "afplay '{}'"
-else:  # Linux
-    PLAY_CMD = "ffplay -nodisp -autoexit '{}'"
+
+def play_audio(path: str) -> None:
+    """
+    Play an audio file using a safe, argument-list subprocess call.
+
+    On Windows this hides the ffplay console window. Uses ffplay on
+    Linux/Windows and afplay on macOS.
+    """
+    system = platform.system()
+    if system == "Windows":
+        cmd = ["ffplay", "-nodisp", "-autoexit", path]
+        creationflags = subprocess.CREATE_NO_WINDOW
+    elif system == "Darwin":
+        cmd = ["afplay", path]
+        creationflags = 0
+    else:
+        cmd = ["ffplay", "-nodisp", "-autoexit", path]
+        creationflags = 0
+
+    try:
+        subprocess.run(
+            cmd,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+            creationflags=creationflags,
+        )
+    except FileNotFoundError:
+        print("Playback command not found. Install FFmpeg (ffplay) or ensure afplay is available on macOS.")
 
 
 # Generate and play audio for a line in real-time
@@ -50,7 +72,7 @@ async def speak_text(speaker: str, text: str, speed: str = "-20%") -> None:
     await communicate.save(temp_audio_path)
 
     # Play audio
-    os.system(PLAY_CMD.format(temp_audio_path))
+    play_audio(temp_audio_path)
 
     # Clean up temporary file
     os.remove(temp_audio_path)
